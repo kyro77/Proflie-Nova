@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NovaProfile</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#08080b;color:#f4f4f6;font-family:Inter,system-ui,Arial}.app{min-height:100vh}
+aside{position:fixed;inset:0 auto 0 0;width:235px;background:#0d0d12;border-right:1px solid #ffffff0d;padding:18px 12px;z-index:20}.brand{font-weight:900;font-size:20px;padding:7px 10px 24px}.brand span{color:#8d70ff}nav{display:grid;gap:4px}nav button{border:0;background:transparent;color:#888892;text-align:left;padding:11px 12px;border-radius:9px;cursor:pointer}nav button.active,nav button:hover{background:#ffffff0a;color:#fff}.account{position:absolute;bottom:15px;left:12px;right:12px;background:#ffffff06;padding:10px;border-radius:10px;font-size:12px;color:#aaa}
+main{margin-left:235px;padding:25px;max-width:1500px}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.header h1{margin:0;font-size:24px}.header p{margin:4px 0;color:#777;font-size:13px}.actions{display:flex;gap:7px}.btn{background:#ffffff08;color:#fff;border:1px solid #ffffff12;border-radius:9px;padding:9px 12px;cursor:pointer}.primary{background:#765cf5;border-color:#765cf5}
+.workspace{display:grid;grid-template-columns:430px 1fr;gap:18px}.panel{background:#0d0d12;border:1px solid #ffffff0d;border-radius:15px;padding:17px}.tab{display:none}.tab.active{display:block}.section{padding-bottom:19px;margin-bottom:19px;border-bottom:1px solid #ffffff09}.section:last-child{border:0;margin:0}.section h2{font-size:14px;margin:0 0 5px}.section>p{font-size:12px;color:#777;margin:0 0 13px;line-height:1.45}.field{margin:11px 0}.field label{display:block;color:#aaa;font-size:12px;margin-bottom:5px}input,textarea,select{width:100%;background:#08080b;border:1px solid #ffffff12;color:#fff;padding:9px;border-radius:8px;outline:none}textarea{min-height:70px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.help{font-size:10px;color:#666a73;margin-top:5px;line-height:1.35}.upload{padding:11px;border:1px dashed #ffffff18;border-radius:9px;background:#ffffff03}.toggle{display:flex;justify-content:space-between;gap:10px;padding:10px;background:#ffffff04;border:1px solid #ffffff09;border-radius:9px;margin:7px 0}.toggle span{font-size:12px}.toggle small{display:block;color:#696973;margin-top:3px;line-height:1.3}.toggle input{width:auto}.links{display:grid;gap:7px}.linkrow{display:grid;grid-template-columns:1fr 1.2fr auto;gap:5px}
+.previewbox{height:calc(100vh - 108px);min-height:650px;position:sticky;top:25px;border-radius:17px;overflow:hidden;border:1px solid #ffffff0d}.preview{height:100%;position:relative;display:flex;align-items:center;justify-content:center;padding:25px;background:#08080b center/cover no-repeat;overflow:hidden}.preview:after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.32);z-index:1}.bgvideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}.card{position:relative;z-index:2;width:min(570px,95%);padding:30px;text-align:center;background:rgba(15,15,21,.76);border:1px solid rgba(255,255,255,.13);border-radius:24px;backdrop-filter:blur(18px);transition:all .3s}.avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;border:2px solid #ffffff20}.name{font-size:30px;font-weight:900;margin:12px 0 5px;transition:.3s}.bio{color:#a5a5b0;line-height:1.5;min-height:22px}.badge{font-size:10px;padding:4px 7px;background:#7d61ff;border-radius:99px;vertical-align:middle}.socials{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;margin:14px 0}.social{padding:7px 10px;border:1px solid #ffffff0c;background:#ffffff08;border-radius:8px;font-size:12px}.profilelinks{display:grid;gap:9px}.profilelinks a{padding:13px;color:#fff;text-decoration:none;background:#ffffff08;border:1px solid #ffffff0d;border-radius:10px;transition:.2s}.profilelinks a:hover{transform:translateY(-2px)}.location{font-size:10px;color:#777;margin-top:15px}
+.music{margin-top:17px;padding:12px 14px;border-radius:12px;background:#ffffff09;border:1px solid #ffffff10;text-align:left;display:none}.music b{font-size:13px}.music small{display:block;color:#85858e;margin-top:2px}.music .bar{height:3px;background:#ffffff12;border-radius:9px;margin-top:9px;overflow:hidden}.music .bar i{display:block;height:100%;width:36%;background:var(--accent,#7d61ff)}
+.enter{display:none !important;position:fixed;inset:0;z-index:9999;pointer-events:auto;display:flex;align-items:center;justify-content:center;background:#050507 center/cover no-repeat;cursor:pointer;opacity:1;transform:none}.enter:before{content:"";position:absolute;inset:-25px;background:inherit;filter:blur(20px);transform:scale(1.08)}.enterbox{position:relative;text-align:center}.enterbox b{font-size:22px}.enterbox small{display:block;color:#999;margin-top:7px}.toast{position:fixed;right:20px;bottom:20px;background:#16161e;padding:11px 14px;border:1px solid #ffffff15;border-radius:9px;z-index:200}
+@media(max-width:1050px){aside{width:68px}.brand{font-size:0}.brand span{font-size:20px}nav button{font-size:0;text-align:center}nav button:after{content:"•";font-size:20px}.account{font-size:0}.account:before{content:"●";font-size:18px}main{margin-left:68px}.workspace{grid-template-columns:1fr}.previewbox{position:relative;height:650px}}
+
+.createCorner{position:fixed;top:18px;right:18px;z-index:10000;display:flex;gap:8px}.createCorner button{border:1px solid #ffffff18;background:#111118d9;color:#fff;padding:9px 12px;border-radius:10px;cursor:pointer;backdrop-filter:blur(12px)}.createCorner .create{background:#765cf5;border-color:#765cf5}.demoHint{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(18px);z-index:10001;opacity:0;pointer-events:none;background:#111118ee;border:1px solid #ffffff16;border-radius:14px;padding:13px 16px;max-width:min(520px,calc(100% - 30px));box-shadow:0 20px 60px #0008;transition:.35s;text-align:center}.demoHint.show{opacity:1;transform:translateX(-50%) translateY(0)}.demoHint b{display:block;margin-bottom:4px}.demoHint small{color:#999;line-height:1.45}.demoHint button{margin-top:9px;border:0;background:#765cf5;color:#fff;padding:8px 11px;border-radius:9px;cursor:pointer}.modal{position:fixed;inset:0;z-index:10002;background:#0009;display:none;align-items:center;justify-content:center;padding:20px}.createProfileCorner{position:fixed;left:253px;bottom:18px;z-index:10000}.createProfileCorner button,.topInfo button{border:1px solid #ffffff14;background:#111118dd;color:#fff;border-radius:11px;padding:10px 13px;cursor:pointer;backdrop-filter:blur(12px)}.createProfileCorner button:hover,.topInfo button:hover{background:#191923}.topInfo{position:fixed;right:18px;top:18px;z-index:10000}@media(max-width:760px){.createProfileCorner{left:18px;bottom:18px}.topInfo{right:18px;top:18px}.createProfileCorner button,.topInfo button{padding:9px 11px;font-size:13px}}.modal.show{display:flex}.modalbox{width:min(560px,100%);background:#111118;border:1px solid #ffffff15;border-radius:18px;padding:22px;box-shadow:0 30px 100px #000}.modalbox h3{margin:0 0 8px}.modalbox p{color:#aaa;line-height:1.55}.modalbox .close{float:right;border:0;background:#ffffff0d;color:#fff;border-radius:8px;padding:7px 9px;cursor:pointer}
+</style>
+<script src="config.js"></script>
+<script>
+let sb=null;
+async function initCloud(){if(!window.NOVA_SUPABASE_URL||window.NOVA_SUPABASE_URL.includes('DEINE_')) return; try{const m=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'); sb=m.createClient(window.NOVA_SUPABASE_URL,window.NOVA_SUPABASE_ANON_KEY); const {data:{session}}=await sb.auth.getSession(); if(session) await cloudLoad(session.user); else showAuth(); sb.auth.onAuthStateChange(async (_e,s)=>{if(s){$('accountEmail').textContent='● '+s.user.email;hideAuth();await cloudLoad(s.user)}else showAuth()})}catch(e){toast('Cloud-Setup prüfen')} }
+function showAuth(){$('authModal').classList.add('show')} function hideAuth(){$('authModal').classList.remove('show')}
+async function cloudLoad(user){if(!sb)return;$('accountEmail').textContent='● '+(user.email||'Account');const {data,error}=await sb.from('profiles').select('*').eq('user_id',user.id).maybeSingle();if(error)return;if(data){const map={username:data.username,name:data.name,bio:data.bio,location:data.location,avatar:data.avatar,enterText:data.enter_text,enterSub:data.enter_sub,accent:data.accent,bgColor:data.bg_color,bgMode:data.bg_mode,bgUrl:data.bg_url,videoUrl:data.video_url,opacity:data.opacity,blur:data.blur,radius:data.radius,glass:data.glass,glow:data.glow,gradient:data.gradient,song:data.song,artist:data.artist,audioLoop:data.audio_loop,volume:data.volume};for(const k in map){if($(k)){if($(k).type==='checkbox')$(k).checked=!!map[k];else $(k).value=map[k]}}links=data.links||links;editLinks();render();updateProfileUrl();toast('Profil geladen ✓')}}
+async function register(){const e=$('authEmail').value.trim(),p=$('authPassword').value;if(!e||p.length<6){$('authStatus').textContent='E-Mail und mindestens 6 Zeichen Passwort eingeben.';return}const {error}=await sb.auth.signUp({email:e,password:p});$('authStatus').textContent=error?error.message:'Account erstellt. Falls E-Mail-Bestätigung aktiv ist, prüfe dein Postfach.'}
+async function login(){const e=$('authEmail').value.trim(),p=$('authPassword').value;const {error}=await sb.auth.signInWithPassword({email:e,password:p});$('authStatus').textContent=error?error.message:'Eingeloggt ✓'}
+$('registerBtn').onclick=register;$('loginBtn').onclick=login;$('logoutBtn').onclick=async()=>{if(sb)await sb.auth.signOut()};
+initCloud();
+</script>
+</head>
+<body><div class="topInfo"><button onclick="showInfo()">ⓘ Info</button></div>
+<aside><div class="brand">Nova<span>Profile</span></div><nav>
+<button class="active" onclick="tab('profile',this)">Profile</button><button onclick="tab('appearance',this)">Appearance</button><button onclick="tab('background',this)">Background</button><button onclick="tab('music',this)">Music</button><button onclick="tab('links',this)">Links</button><button onclick="tab('effects',this)">Effects</button><button onclick="tab('widgets',this)">Widgets</button><button onclick="tab('layout',this)">Layout</button><button onclick="tab('analytics',this)">Analytics</button>
+</nav><div class="account"><span id="accountEmail">● Nicht eingeloggt</span><br><small><button class="btn" id="logoutBtn" style="margin-top:6px;padding:5px 8px;font-size:11px">Abmelden</button></small></div></aside>
+
+<main><div class="header"><div><h1 id="heading">Profile</h1><p>Ändere etwas links – die Vorschau rechts zeigt es sofort.</p></div><div class="actions"><button class="btn" onclick="resetAll()">Reset</button><button class="btn primary" onclick="save()">Speichern</button></div></div>
+<div class="workspace"><section>
+
+<div id="profile" class="tab active panel">
+<div class="section"><h2>Profil-Link</h2><p>Lege deinen öffentlichen Benutzernamen fest. Daraus wird dein teilbarer Profil-Link.</p><div class="field"><label>Username</label><input id="username" value="yourname" maxlength="32"><div class="help">Nur Buchstaben, Zahlen, Bindestrich und Unterstrich werden für den Link verwendet.</div></div><div class="field"><label>Dein Profil-Link</label><input id="profileUrl" readonly><div class="help">Diesen Link kannst du z. B. in deine Discord-Bio packen.</div></div><div class="actions"><button class="btn" onclick="copyProfileUrl()">Link kopieren</button><button class="btn primary" onclick="openPublicProfile()">Profil ansehen</button></div></div>
+<div class="section"><h2>Profil</h2><p>Hier legst du fest, was Besucher direkt sehen.</p>
+<div class="field"><label>Name</label><input id="name" value="yourname"><div class="help">Wird sofort oben in der Vorschau geändert.</div></div>
+<div class="field"><label>Bio</label><textarea id="bio">welcome to my profile ✦</textarea><div class="help">Dein Beschreibungstext unter dem Namen.</div></div>
+<div class="row"><div class="field"><label>Ort</label><input id="location" value="Germany"><div class="help">Wird unten im Profil angezeigt.</div></div><div class="field"><label>Avatar URL</label><input id="avatar" value="https://i.pravatar.cc/300"><div class="help">Direkte Bildadresse deines Avatars.</div></div></div>
+<div class="upload"><label>Avatar-Datei</label><input id="avatarFile" type="file" accept="image/*"><div class="help">Lade ein Bild von deinem Gerät hoch. Die Vorschau wird sofort ersetzt.</div></div></div>
+<div class="section"><h2>Click to Enter</h2><p>Der Startbildschirm vor deinem eigentlichen Profil.</p><div class="field"><label>Haupttext</label><input id="enterText" value="click to enter..."><div class="help">Wird direkt auf dem Startbildschirm geändert.</div></div><div class="field"><label>Untertitel</label><input id="enterSub" value="welcome to my profile"><div class="help">Kleiner Text unter dem Haupttext.</div></div></div>
+</div>
+
+<div id="appearance" class="tab panel">
+<div class="section"><h2>Farben</h2><p>Alle Farbänderungen werden sofort auf der rechten Vorschau angewendet.</p><div class="row"><div class="field"><label>Accent</label><input id="accent" type="color" value="#7d61ff"><div class="help">Farbe für Badge, Musikleiste und Enter-Text.</div></div><div class="field"><label>Grundfarbe</label><input id="bgColor" type="color" value="#08080b"><div class="help">Hintergrundfarbe, wenn kein Bild verwendet wird.</div></div></div></div>
+<div class="section"><h2>Profilkarte</h2><p>Verändert die Karte in der Live-Vorschau.</p><div class="field"><label>Transparenz</label><input id="opacity" type="range" min="10" max="100" value="76"><div class="help">Ziehe den Regler und beobachte rechts, wie die Karte durchsichtig wird.</div></div><div class="field"><label>Blur</label><input id="blur" type="range" min="0" max="30" value="18"><div class="help">Wie stark der Hintergrund hinter der Karte verschwimmt.</div></div><div class="field"><label>Ecken</label><input id="radius" type="range" min="0" max="45" value="24"><div class="help">Form der Profilkarte von eckig bis stark abgerundet.</div></div>
+<div class="toggle"><span>Glas-Effekt<small>Aktiviert die Unschärfe hinter der Profilkarte.</small></span><input id="glass" type="checkbox" checked></div>
+<div class="toggle"><span>Glow<small>Fügt einen farbigen Schein um die Profilkarte hinzu.</small></span><input id="glow" type="checkbox" checked></div>
+<div class="toggle"><span>Gradient<small>Legt einen Accent-Farbverlauf über die Karte.</small></span><input id="gradient" type="checkbox"></div>
+</div>
+</div>
+
+<div id="background" class="tab panel">
+<div class="section"><h2>Hintergrund</h2><p>Bild, Video oder eine einfache Farbe. Änderungen erscheinen direkt rechts.</p>
+<div class="field"><label>Hintergrund-Typ</label><select id="bgMode"><option value="image">Bild</option><option value="video">Video</option><option value="color">Nur Farbe</option></select><div class="help">Bei Video wird das Video automatisch als Hintergrund verwendet.</div></div>
+<div class="upload"><label>Bild hochladen</label><input id="bgFile" type="file" accept="image/*"><div class="help">Wähle ein Bild von deinem Gerät. Es wird sofort als Hintergrund gesetzt.</div></div>
+<div class="field"><label>Bild URL</label><input id="bgUrl" value="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=2400&q=80"><div class="help">Alternative zum Datei-Upload.</div></div>
+<div class="upload"><label>Video hochladen</label><input id="videoFile" type="file" accept="video/*"><div class="help">MP4/WebM/andere unterstützte Videodatei auswählen. Sie läuft automatisch und stumm.</div></div>
+<div class="field"><label>Video URL</label><input id="videoUrl" placeholder="https://.../video.mp4"><div class="help">Direkter Link zu einer Videodatei.</div></div></div></div>
+
+<div id="music" class="tab panel">
+<div class="section"><h2>Musik</h2>
+<p>Schreib einfach <b>Song + Künstler</b>. NovaProfile sucht online nach einem passenden Titel und spielt – wenn verfügbar – eine offizielle Musik-Preview ab.</p>
+<div class="field"><label>Song</label><input id="song" value="Hoffnung"><div class="help">Nur der Liedtitel.</div></div>
+<div class="field"><label>Künstler / Sänger</label><input id="artist" value="Schillah"><div class="help">Nur der Name des Künstlers.</div></div>
+<button class="btn primary" id="findMusic">Song suchen</button>
+<div id="musicStatus" class="help" style="margin-top:9px">Noch nicht gesucht.</div>
+<div class="musicResult" id="musicResult" style="display:none;margin-top:12px;padding:12px;border:1px solid #ffffff12;border-radius:10px;background:#ffffff05">
+<b id="foundTitle">Hoffnung</b><small id="foundArtist" style="display:block;color:#888;margin-top:3px">Schillah</small>
+<button class="btn" id="playMusic" style="margin-top:9px">▶ Abspielen</button>
+</div>
+<div class="field"><label>Alternative: eigene Audio-Datei</label><input id="audioFile" type="file" accept="audio/*"><div class="help">Wenn du eine eigene Datei hochlädst, wird sie direkt nach „Click to Enter“ abgespielt.</div></div>
+<div class="row"><div class="field"><label>Loop</label><select id="audioLoop"><option value="yes">An</option><option value="no">Aus</option></select><div class="help">Song wiederholen.</div></div><div class="field"><label>Lautstärke</label><input id="volume" type="range" min="0" max="100" value="70"><div class="help">Startlautstärke.</div></div></div>
+</div></div></div>
+
+<div id="links" class="tab panel"><div class="section"><h2>Links</h2><p>Diese Links werden live unten auf deinem Profil angezeigt.</p><div id="linkEditor" class="links"></div><button class="btn" onclick="addLink()">+ Link hinzufügen</button></div></div>
+
+<div id="effects" class="tab panel">
+<div class="section"><h2>Effekte</h2><p>Schalte einen Effekt ein und du siehst ihn sofort rechts.</p>
+<div class="toggle"><span>Typewriter<small>Bio wird Buchstabe für Buchstabe geschrieben.</small></span><input id="typewriter" type="checkbox"></div>
+<div class="toggle"><span>Animated Name<small>Username bekommt eine leichte Animation.</small></span><input id="animatedName" type="checkbox"></div>
+</div></div>
+
+<div id="widgets" class="tab panel"><div class="section"><h2>Widgets</h2><p>Widgets sind zusätzliche Blöcke. Einige brauchen später einen Account/API, deshalb wird hier erklärt, was sie benötigen.</p>
+<div class="toggle"><span>Discord Status<small>Benötigt eine Discord-Verbindung, damit ein echter Status angezeigt werden kann.</small></span><input type="checkbox"></div>
+<div class="toggle"><span>Spotify<small>Benötigt eine Spotify-Verbindung für den aktuell laufenden Song.</small></span><input type="checkbox"></div>
+<div class="toggle"><span>Weather<small>Benötigt eine Wetter-API und einen Standort.</small></span><input type="checkbox"></div>
+<div class="toggle"><span>Projects<small>Kann später eigene Projekte auf deinem Profil anzeigen.</small></span><input type="checkbox"></div>
+</div></div>
+
+<div id="layout" class="tab panel"><div class="section"><h2>Layout</h2><p>Wähle die Form deiner Profilkarte. Die Vorschau wird direkt angepasst.</p><div class="field"><label>Style</label><select id="layoutStyle"><option value="glass">Nova Glass</option><option value="minimal">Minimal</option><option value="flat">Flat</option><option value="wide">Wide</option></select><div class="help">Nova Glass ist die Standardansicht. Minimal entfernt den Glas-Look.</div></div></div></div>
+
+<div id="analytics" class="tab panel"><div class="section"><h2>Analytics</h2><p>In der fertigen Online-Version werden diese Werte vom Server gezählt. Im lokalen Prototyp sind es nur Beispielwerte.</p><div class="row"><div class="panel"><b>1,284</b><br><small>Views</small></div><div class="panel"><b>612</b><br><small>Clicks</small></div></div></div></div>
+
+</section>
+
+<section class="previewbox"><div class="preview" id="preview"><video id="bgVideo" class="bgvideo" muted autoplay loop playsinline></video><div class="card" id="card"><img class="avatar" id="pAvatar"><div class="name" id="pName"></div><div class="bio" id="pBio"></div><div class="socials" id="pSocials"></div><div class="profilelinks" id="pLinks"></div><div class="music" id="musicBox"><b id="pSong">Hoffnung</b><small id="pArtist">Schillah</small><div class="bar"><i></i></div></div><div class="location" id="pLocation"></div></div></div></section>
+</div></main>
+
+<div class="modal" id="authModal"><div class="modalbox"><h3>NovaProfile Account</h3><p>Logge dich ein, damit dein Profil online gespeichert werden kann.</p><div class="field"><label>E-Mail</label><input id="authEmail" type="email" autocomplete="email" placeholder="du@example.com"></div><div class="field"><label>Passwort</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="Mindestens 6 Zeichen"></div><div class="actions"><button class="btn" id="loginBtn">Einloggen</button><button class="btn primary" id="registerBtn">Account erstellen</button></div><div class="help" id="authStatus">Noch nicht eingeloggt.</div></div></div><div class="enter" id="enter"><div class="enterbox"><b id="pEnterText">click to enter...</b><small id="pEnterSub">welcome to my profile</small></div></div><div class="demoHint" id="demoHint"><b>NovaProfile Demo</b><small>Du siehst gerade eine Demo-Profilseite. Du kannst dir kostenlos dein eigenes Profil erstellen und anschließend deinen eigenen Link teilen.</small><br><button onclick="createProfile()">Eigenes Profil erstellen</button></div><div class="modal" id="infoModal" onclick="if(event.target===this)hideInfo()"><div class="modalbox"><button class="close" onclick="hideInfo()">✕</button><h3>NovaProfile</h3><p>Erstelle deine eigene Profilseite mit Click-to-Enter, Hintergrundbild oder Video, Musik, Links, Effekten und mehr.</p><p><b>Demo:</b> Diese Seite ist aktuell ein Prototyp. Für eine echte öffentliche Plattform brauchen wir zusätzlich Accounts, Datenbank, Datei-Speicher und einen Server.</p><button class="btn primary" onclick="createProfile()">Jetzt eigenes Profil erstellen</button></div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+let links=[{n:"Discord",u:"https://discord.com"},{n:"GitHub",u:"https://github.com"},{n:"Instagram",u:"https://instagram.com"}];
+let audioURL="",coverURL="";
+
+function tab(id,b){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('heading').textContent=b.textContent}
+function esc(x){return String(x).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;')}
+function editLinks(){$('linkEditor').innerHTML=links.map((l,i)=>`<div class="linkrow"><input value="${esc(l.n)}" oninput="links[${i}].n=this.value;render()"><input value="${esc(l.u)}" oninput="links[${i}].u=this.value;render()"><button class="btn" onclick="links.splice(${i},1);editLinks();render()">×</button></div>`).join('');render()}
+function addLink(){links.push({n:"New Link",u:"#"});editLinks()}
+
+function render(){
+document.documentElement.style.setProperty('--accent',$('accent').value);
+$('pName').innerHTML=esc($('name').value)+' <span class="badge">NOVA</span>';
+$('pBio').textContent=$('bio').value;$('pAvatar').src=$('avatar').value;$('pLocation').textContent='● '+$('location').value+' · 1,284 views';
+$('pSocials').innerHTML=links.map(x=>`<span class="social">${esc(x.n)}</span>`).join('');
+$('pLinks').innerHTML=links.map(x=>`<a href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.n)}</a>`).join('');
+$('pSong').textContent=$('song').value||'Untitled';$('pArtist').textContent=$('artist').value||'Unknown artist';$('musicBox').style.display=($('song').value||$('artist').value||audioURL)?'block':'none';
+$('pEnterText').textContent=$('enterText').value;$('pEnterSub').textContent=$('enterSub').value;
+$('card').style.background=`rgba(15,15,21,${Number($('opacity').value)/100})`;$('card').style.backdropFilter=`blur(${$('blur').value}px)`;$('card').style.borderRadius=$('radius').value+'px';
+$('pName').style.animation=$('animatedName').checked?'namepulse 1.8s infinite alternate':'none';
+$('preview').style.backgroundColor=$('bgColor').value;$('pEnterText').style.color=$('accent').value;
+if($('bgMode').value==='video'){$('bgVideo').style.display='block'}else{$('bgVideo').style.display='none';$('preview').style.backgroundImage=$('bgMode').value==='image'?`url("${$('bgUrl').value}")`:'none'};
+if($('layoutStyle').value==='minimal'){$('card').style.backdropFilter='none';$('card').style.background='rgba(0,0,0,.35)';$('card').style.borderColor='transparent';$('card').style.width='min(500px,95%)'}
+else if($('layoutStyle').value==='flat'){$('card').style.backdropFilter='none';$('card').style.background='rgba(20,20,25,.96)';$('card').style.borderColor='#ffffff10';$('card').style.width='min(570px,95%)'}
+else if($('layoutStyle').value==='wide'){$('card').style.width='min(760px,96%)'}
+else{$('card').style.borderColor='#ffffff20';$('card').style.width='min(570px,95%)'}
+$('card').style.backdropFilter=$('glass').checked?`blur(${$('blur').value}px)`:'none';
+$('card').style.boxShadow=$('glow').checked?`0 25px 100px #000,0 0 70px ${$('accent').value}45`:'0 25px 100px #000';
+$('card').style.backgroundImage=$('gradient').checked?`linear-gradient(135deg,${$('accent').value}28,transparent 58%)`:'';;
+}
+
+function profileData(){return {username:safeUsername($('username').value),name:$('name').value,bio:$('bio').value,location:$('location').value,avatar:$('avatar').value,enter_text:$('enterText').value,enter_sub:$('enterSub').value,accent:$('accent').value,bg_color:$('bgColor').value,bg_mode:$('bgMode').value,bg_url:$('bgUrl').value,video_url:$('videoUrl').value,opacity:Number($('opacity').value),blur:Number($('blur').value),radius:Number($('radius').value),glass:$('glass').checked,glow:$('glow').checked,gradient:$('gradient').checked,song:$('song').value,artist:$('artist').value,audio_loop:$('audioLoop').value,volume:Number($('volume').value),links:links}}
+async function save(){localStorage.nova5=JSON.stringify(profileData());if(window.sb){const {data:{user}}=await sb.auth.getUser();if(!user){showAuth();return}const d=profileData();const {error}=await sb.from('profiles').upsert({user_id:user.id,...d},{onConflict:'user_id'});if(error){toast('Speichern fehlgeschlagen: '+error.message);return}toast('Online gespeichert ✓')}else toast('Lokal gespeichert ✓ – Account/DB noch nicht eingerichtet')}
+function toast(t){let d=document.createElement('div');d.className='toast';d.textContent=t;document.body.append(d);setTimeout(()=>d.remove(),1600)}
+function resetAll(){localStorage.removeItem('nova5');location.reload()}
+
+async function uploadMedia(file,kind){if(!file)return null;if(!window.sb){toast('Cloud nicht eingerichtet – Datei nur lokal.');return URL.createObjectURL(file)}const {data:{user}}=await sb.auth.getUser();if(!user){showAuth();return null}const ext=(file.name.split('.').pop()||'bin').toLowerCase();const path=user.id+'/'+kind+'-'+Date.now()+'.'+ext;const {error}=await sb.storage.from('profile-media').upload(path,file,{upsert:true,contentType:file.type});if(error){toast('Upload fehlgeschlagen: '+error.message);return null}return sb.storage.from('profile-media').getPublicUrl(path).data.publicUrl}
+$('avatarFile').onchange=async e=>{let f=e.target.files[0];if(f){const u=await uploadMedia(f,'avatar');if(u){$('avatar').value=u;render();toast('Avatar online gespeichert ✓')}}};
+$('bgFile').onchange=async e=>{let f=e.target.files[0];if(f){const u=await uploadMedia(f,'background');if(u){$('bgMode').value='image';$('bgUrl').value=u;render();toast('Hintergrund online gespeichert ✓')}}};
+$('videoFile').onchange=async e=>{let f=e.target.files[0];if(f){const u=await uploadMedia(f,'video');if(u){$('bgMode').value='video';$('videoUrl').value=u;$('bgVideo').src=u;$('bgVideo').style.display='block';$('bgVideo').play().catch(()=>{});render();toast('Video online gespeichert ✓')}}};
+$('audioFile').onchange=async e=>{let f=e.target.files[0];if(f){const u=await uploadMedia(f,'audio');if(u){audioURL=u;render();toast('Musik online gespeichert ✓')}}};
+if($('coverFile')) $('coverFile').onchange=e=>{let f=e.target.files[0];if(f){coverURL=URL.createObjectURL(f);toast('Cover geladen ✓')}};
+
+$('enter').addEventListener('click',()=>{
+  const overlay=$('enter');
+  if(!overlay)return;
+  const src=audioURL;
+  if(src){
+    if(!window.musicAudio) window.musicAudio=new Audio(src);
+    window.musicAudio.loop=$('audioLoop').value==='yes';
+    window.musicAudio.volume=Number($('volume').value)/100;
+    window.musicAudio.play().catch(()=>{});
+  }
+  overlay.style.pointerEvents='none';
+  overlay.style.transition='opacity .65s ease, transform .65s ease';
+  overlay.style.opacity='0';
+  setTimeout(()=>{overlay.remove(); $('demoHint').classList.add('show'); setTimeout(()=>$('demoHint').classList.remove('show'),6500)},650);
+});
+
+let musicAudio=null, currentPreview='';
+$('findMusic').onclick=async()=>{
+ const s=$('song').value.trim(), a=$('artist').value.trim();
+ if(!s||!a){$('musicStatus').textContent='Bitte Song und Künstler eintragen.';return}
+ $('musicStatus').textContent='Suche online…';$('musicResult').style.display='none';
+ try{
+   const q=encodeURIComponent(s+' '+a);
+   const r=await fetch('https://itunes.apple.com/search?term='+q+'&entity=song&limit=5&country=DE');
+   const data=await r.json();
+   const item=(data.results||[]).find(x=>x.previewUrl)||data.results?.[0];
+   if(!item){$('musicStatus').textContent='Kein passender Titel gefunden.';return}
+   $('foundTitle').textContent=item.trackName||s;
+   $('foundArtist').textContent=(item.artistName||a)+(item.previewUrl?' · 30 Sek. Preview':'');
+   $('musicResult').style.display='block';
+   currentPreview=item.previewUrl||'';
+   $('musicStatus').textContent=item.previewUrl?'Titel gefunden ✓':'Titel gefunden, aber keine Preview verfügbar.';
+   render();
+ }catch(e){$('musicStatus').textContent='Musiksuche konnte nicht geladen werden. Prüfe deine Online-Verbindung.'}
+};
+$('playMusic').onclick=()=>{
+ if(currentPreview){
+   if(musicAudio){musicAudio.pause();musicAudio.currentTime=0}
+   musicAudio=new Audio(currentPreview);musicAudio.loop=$('audioLoop').value==='yes';musicAudio.volume=Number($('volume').value)/100;
+   musicAudio.play().then(()=>toast('Musik-Preview läuft ✓')).catch(()=>toast('Browser hat die Wiedergabe blockiert. Noch einmal klicken.'));
+ }else if(audioURL){
+   if(!musicAudio)musicAudio=new Audio(audioURL);musicAudio.loop=$('audioLoop').value==='yes';musicAudio.volume=Number($('volume').value)/100;musicAudio.play().catch(()=>{});toast('Musik läuft ✓')
+ }else toast('Erst einen Song suchen.');
+};
+function createProfile(){window.location.href='editor.html'}
+function safeUsername(v){return (v||'yourname').toLowerCase().replace(/[^a-z0-9_-]/g,'').slice(0,32)||'yourname'}
+function updateProfileUrl(){const u=safeUsername($('username').value);$('username').value=u;$('profileUrl').value=new URL('profile.html?u='+encodeURIComponent(u),document.baseURI).href}
+function copyProfileUrl(){updateProfileUrl();navigator.clipboard?.writeText($('profileUrl').value).then(()=>toast('Profil-Link kopiert ✓')).catch(()=>{ $('profileUrl').select();document.execCommand('copy');toast('Profil-Link kopiert ✓')})}
+function openPublicProfile(){updateProfileUrl();window.open($('profileUrl').value,'_blank')}
+function showInfo(){$('infoModal').classList.add('show')}
+function hideInfo(){$('infoModal').classList.remove('show')}
+
+document.querySelectorAll('input,textarea,select').forEach(x=>x.addEventListener('input',render));
+try{let x=JSON.parse(localStorage.nova5);for(let k in x)if($(k)&&k!=='links'){if($(k).type==='checkbox')$(k).checked=!!x[k];else $(k).value=x[k]}if(x.links)links=x.links}catch(e){}
+editLinks();render();
+try{if($('username')){}}catch(e){}
+if($('username')){$('username').addEventListener('input',updateProfileUrl);updateProfileUrl()}
+
+let sb=null;
+async function initCloud(){if(!window.NOVA_SUPABASE_URL||window.NOVA_SUPABASE_URL.includes('DEINE_')) return; try{const m=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'); sb=m.createClient(window.NOVA_SUPABASE_URL,window.NOVA_SUPABASE_ANON_KEY); const {data:{session}}=await sb.auth.getSession(); if(session) await cloudLoad(session.user); else showAuth(); sb.auth.onAuthStateChange(async (_e,s)=>{if(s){$('accountEmail').textContent='● '+s.user.email;hideAuth();await cloudLoad(s.user)}else showAuth()})}catch(e){toast('Cloud-Setup prüfen')} }
+function showAuth(){$('authModal').classList.add('show')} function hideAuth(){$('authModal').classList.remove('show')}
+async function cloudLoad(user){if(!sb)return;$('accountEmail').textContent='● '+(user.email||'Account');const {data,error}=await sb.from('profiles').select('*').eq('user_id',user.id).maybeSingle();if(error)return;if(data){const map={username:data.username,name:data.name,bio:data.bio,location:data.location,avatar:data.avatar,enterText:data.enter_text,enterSub:data.enter_sub,accent:data.accent,bgColor:data.bg_color,bgMode:data.bg_mode,bgUrl:data.bg_url,videoUrl:data.video_url,opacity:data.opacity,blur:data.blur,radius:data.radius,glass:data.glass,glow:data.glow,gradient:data.gradient,song:data.song,artist:data.artist,audioLoop:data.audio_loop,volume:data.volume};for(const k in map){if($(k)){if($(k).type==='checkbox')$(k).checked=!!map[k];else $(k).value=map[k]}}links=data.links||links;editLinks();render();updateProfileUrl();toast('Profil geladen ✓')}}
+async function register(){const e=$('authEmail').value.trim(),p=$('authPassword').value;if(!e||p.length<6){$('authStatus').textContent='E-Mail und mindestens 6 Zeichen Passwort eingeben.';return}const {error}=await sb.auth.signUp({email:e,password:p});$('authStatus').textContent=error?error.message:'Account erstellt. Falls E-Mail-Bestätigung aktiv ist, prüfe dein Postfach.'}
+async function login(){const e=$('authEmail').value.trim(),p=$('authPassword').value;const {error}=await sb.auth.signInWithPassword({email:e,password:p});$('authStatus').textContent=error?error.message:'Eingeloggt ✓'}
+$('registerBtn').onclick=register;$('loginBtn').onclick=login;$('logoutBtn').onclick=async()=>{if(sb)await sb.auth.signOut()};
+initCloud();
+</script>
+<style>@keyframes namepulse{from{transform:translateY(0)}to{transform:translateY(-3px)}}</style>
+</body></html>
